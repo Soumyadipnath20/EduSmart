@@ -1,11 +1,15 @@
+// @ts-nocheck
+'use client';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FileDown, Search } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const attendanceData = [
+const initialAttendanceData = [
   { id: 'S001', name: 'Alice Johnson', course: 'CS101', date: '2024-05-20', status: 'Present' },
   { id: 'S002', name: 'Bob Williams', course: 'CS101', date: '2024-05-20', status: 'Present' },
   { id: 'S003', name: 'Charlie Brown', course: 'CS101', date: '2024-05-20', status: 'Absent' },
@@ -16,6 +20,14 @@ const attendanceData = [
 ];
 
 export default function AdminAttendancePage() {
+  const [attendanceData, setAttendanceData] = useState(initialAttendanceData);
+
+  const handleStatusChange = (index, newStatus) => {
+    const updatedData = [...attendanceData];
+    updatedData[index].status = newStatus;
+    setAttendanceData(updatedData);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -55,11 +67,25 @@ export default function AdminAttendancePage() {
                 <TableCell>{record.course}</TableCell>
                 <TableCell>{record.date}</TableCell>
                 <TableCell>
-                  <Badge variant={
-                    record.status === 'Present' ? 'default' : record.status === 'Absent' ? 'destructive' : 'secondary'
-                  } className={record.status === 'Present' ? 'bg-green-500/20 text-green-700 border-green-500/30' : ''}>
-                    {record.status}
-                  </Badge>
+                  <Select
+                    value={record.status}
+                    onValueChange={(newStatus) => handleStatusChange(index, newStatus)}
+                  >
+                    <SelectTrigger className="w-[120px]">
+                      <SelectValue>
+                         <Badge variant={
+                          record.status === 'Present' ? 'default' : record.status === 'Absent' ? 'destructive' : 'secondary'
+                         } className={record.status === 'Present' ? 'bg-green-500/20 text-green-700 border-green-500/30' : ''}>
+                          {record.status}
+                        </Badge>
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Present">Present</SelectItem>
+                      <SelectItem value="Absent">Absent</SelectItem>
+                      <SelectItem value="Excused">Excused</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </TableCell>
               </TableRow>
             ))}

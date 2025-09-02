@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, QrCode } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
-const attendanceHistory = [
-  { course: 'CS101', date: '2024-05-20', status: 'Present' },
-  { course: 'MATH203', date: '2024-05-20', status: 'Present' },
-  { course: 'CS101', date: '2024-05-18', status: 'Present' },
-  { course: 'ENGL101', date: '2024-05-17', status: 'Absent' },
+const attendanceByCourse = [
+    { course: 'CS101', percentage: 95 },
+    { course: 'MATH203', percentage: 100 },
+    { course: 'ENGL101', percentage: 75 },
+    { course: 'PHYS301', percentage: 88 },
 ];
 
 export default function StudentAttendancePage() {
@@ -36,19 +37,18 @@ export default function StudentAttendancePage() {
       <div className="md:col-span-2">
         <Card>
           <CardHeader>
-            <CardTitle>Recent Attendance History</CardTitle>
+            <CardTitle>Attendance by Course</CardTitle>
+            <CardDescription>Your attendance percentage for each course.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {attendanceHistory.map((item, index) => (
-                <div key={index} className="flex justify-between items-center p-3 bg-secondary/50 rounded-lg">
-                  <div>
+            <div className="space-y-6">
+              {attendanceByCourse.map((item) => (
+                <div key={item.course}>
+                  <div className="flex justify-between items-center mb-1">
                     <p className="font-semibold">{item.course}</p>
-                    <p className="text-sm text-muted-foreground">{item.date}</p>
+                    <p className="text-sm font-medium">{item.percentage}%</p>
                   </div>
-                  <Badge variant={item.status === 'Present' ? 'default' : 'destructive'} className={item.status === 'Present' ? 'bg-green-500/20 text-green-700 border-green-500/30' : ''}>
-                    {item.status}
-                  </Badge>
+                  <Progress value={item.percentage} className="h-2" />
                 </div>
               ))}
             </div>

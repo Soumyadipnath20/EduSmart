@@ -38,35 +38,39 @@ export default function Home() {
             Choose Your Portal
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Link href="/student">
-              <Card className="hover:shadow-lg hover:border-primary transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
-                <CardHeader className="flex-row items-center gap-4">
-                  <div className="bg-secondary p-4 rounded-lg">
-                    <GraduationCap className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Student Portal</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground">
-                    Access your courses, track attendance, manage notes, and connect with peers and alumni. Your academic journey, simplified.
-                  </p>
-                </CardContent>
-              </Card>
+            <Link href="/student" passHref legacyBehavior>
+              <a className="block h-full">
+                <Card className="hover:shadow-lg hover:border-primary transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                  <CardHeader className="flex-row items-center gap-4">
+                    <div className="bg-secondary p-4 rounded-lg">
+                      <GraduationCap className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl">Student Portal</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground">
+                      Access your courses, track attendance, manage notes, and connect with peers and alumni. Your academic journey, simplified.
+                    </p>
+                  </CardContent>
+                </Card>
+              </a>
             </Link>
-            <Link href="/admin">
-              <Card className="hover:shadow-lg hover:border-primary transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
-                <CardHeader className="flex-row items-center gap-4">
-                  <div className="bg-secondary p-4 rounded-lg">
-                    <UserCog className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-2xl">Admin Portal</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-muted-foreground">
-                    Manage attendance, analyze curriculum data with AI, engage the alumni network, and oversee all academic activities.
-                  </p>
-                </CardContent>
-              </Card>
+            <Link href="/admin" passHref legacyBehavior>
+              <a className="block h-full">
+                <Card className="hover:shadow-lg hover:border-primary transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                  <CardHeader className="flex-row items-center gap-4">
+                    <div className="bg-secondary p-4 rounded-lg">
+                      <UserCog className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl">Admin Portal</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground">
+                      Manage attendance, analyze curriculum data with AI, engage the alumni network, and oversee all academic activities.
+                    </p>
+                  </CardContent>
+                </Card>
+              </a>
             </Link>
           </div>
         </section>

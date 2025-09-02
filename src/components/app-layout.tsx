@@ -12,21 +12,21 @@ import {
   ClipboardCheck,
   LayoutDashboard,
   Menu,
-  PanelLeft,
   Upload,
   Users,
 } from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Icons } from './icons';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 interface NavItem {
   href: string;
@@ -34,14 +34,32 @@ interface NavItem {
   icon: React.ElementType;
 }
 
+const adminNavItems: NavItem[] = [
+  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/attendance', label: 'Attendance', icon: ClipboardCheck },
+  { href: '/admin/curriculum', label: 'Curriculum AI', icon: Bot },
+  { href: '/admin/alumni', label: 'Alumni Network', icon: Users },
+  { href: '/admin/meetings', label: 'Meetings', icon: CalendarDays },
+  { href: '/admin/notes', label: 'Notes Manager', icon: Upload },
+];
+
+const studentNavItems: NavItem[] = [
+  { href: '/student/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/student/attendance', label: 'Attendance', icon: CheckCircle },
+  { href: '/student/notes', label: 'My Notes', icon: BookOpen },
+  { href: '/student/alumni', label: 'Alumni Network', icon: Users },
+  { href: '/student/meetings', label: 'My Meetings', icon: CalendarDays },
+];
+
 interface AppLayoutProps {
-  navItems: NavItem[];
+  userType: 'admin' | 'student';
   children: React.ReactNode;
 }
 
-export function AppLayout({ navItems, children }: AppLayoutProps) {
+export function AppLayout({ userType, children }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const pathname = usePathname();
+  const navItems = userType === 'admin' ? adminNavItems : studentNavItems;
 
   return (
     <TooltipProvider>
@@ -53,14 +71,21 @@ export function AppLayout({ navItems, children }: AppLayoutProps) {
           )}
         >
           <div className="flex items-center h-16 border-b px-6">
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <Icons.logo className={cn('h-6 w-6 text-primary', !isSidebarOpen && 'h-8 w-8')} />
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-bold text-lg"
+            >
+              <Icons.logo
+                className={cn('h-6 w-6 text-primary', !isSidebarOpen && 'h-8 w-8')}
+              />
               {isSidebarOpen && <span>EduSmart Hub</span>}
             </Link>
           </div>
           <nav className="flex-1 px-4 py-4 space-y-2">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+            {navItems.map(item => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(item.href));
               return (
                 <Tooltip key={item.href} delayDuration={0}>
                   <TooltipTrigger asChild>
@@ -79,17 +104,23 @@ export function AppLayout({ navItems, children }: AppLayoutProps) {
                     </Button>
                   </TooltipTrigger>
                   {!isSidebarOpen && (
-                    <TooltipContent side="right">
-                      {item.label}
-                    </TooltipContent>
+                    <TooltipContent side="right">{item.label}</TooltipContent>
                   )}
                 </Tooltip>
               );
             })}
           </nav>
           <div className="mt-auto p-4">
-             <Button variant="outline" onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="w-full">
-              {isSidebarOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+            <Button
+              variant="outline"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="w-full"
+            >
+              {isSidebarOpen ? (
+                <ChevronLeft className="h-4 w-4" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
             </Button>
           </div>
         </aside>
@@ -105,13 +136,16 @@ export function AppLayout({ navItems, children }: AppLayoutProps) {
               </SheetTrigger>
               <SheetContent side="left" className="w-[280px] p-0">
                 <div className="flex items-center h-16 border-b px-6">
-                  <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+                  <Link
+                    href="/"
+                    className="flex items-center gap-2 font-bold text-lg"
+                  >
                     <Icons.logo className="h-6 w-6 text-primary" />
                     <span>EduSmart Hub</span>
                   </Link>
                 </div>
                 <nav className="flex-1 px-4 py-4 space-y-2">
-                  {navItems.map((item) => (
+                  {navItems.map(item => (
                     <Button
                       key={item.href}
                       asChild
@@ -129,7 +163,10 @@ export function AppLayout({ navItems, children }: AppLayoutProps) {
             </Sheet>
             <div className="flex-1">
               <h1 className="font-semibold text-lg">
-                {navItems.find(item => pathname.startsWith(item.href))?.label}
+                {
+                  navItems.find(item => pathname.startsWith(item.href))
+                    ?.label
+                }
               </h1>
             </div>
           </header>
